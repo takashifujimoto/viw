@@ -1,0 +1,12 @@
+pre{
+
+  margin:0px;
+    padding:0;
+    font-family: 'Cousine', monospace;
+    font-size: 13px;
+
+}
+div.line{
+    min-width: 100%;
+    width:100%;
+}
