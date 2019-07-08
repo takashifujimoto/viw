@@ -37,11 +37,6 @@ var vim = {};
 
 
 
-//function body_onPress(event){
-//    log('press', event);
-//    updateUI( 'status_mode', '<span>' + mode_ToString(vim.mode) + '</span>' );
-//    foo(event);
-//}
 
 function body_onKeyDown(event){
 
@@ -158,7 +153,9 @@ function updateUI( id , content){
     element.innerHTML = content;
 }
 
-//function run_command(ch){
+
+
+
 function normal_op(ch){
     switch(ch){
     case 'k' :
@@ -273,9 +270,6 @@ function move_cursor(y, new_y){
 
 function make_buffer(texts){
     for(var i = texts.length; i != -1  ; i--){
-
-
-
         if ( i == vim.cursor.y) {
             if(vim.mode == Mode.Normal){
                 editor.innerHTML
@@ -297,6 +291,7 @@ function make_ui_line(ui_text, i){
         '</div>'+
         '</div>';
 }
+
 
 function make_ui_line_with_cursor(ui_text, i){
    
@@ -330,6 +325,9 @@ function make_ui_text_with_cursor_insert_mode(ui_text){
         '</div>';
     }
 }
+
+
+
 function add_unused_line(){
     while( window.innerHeight > editor.clientHeight + 249){
         editor.innerHTML += '<div class="number" ></div><div class="text">~</div>';

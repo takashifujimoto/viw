@@ -1,5 +1,6 @@
 pre{
 
+
   margin:0px;
     padding:0;
     font-family: 'Cousine', monospace;
@@ -7,6 +8,7 @@ pre{
 
 }
 div.line{
+    white-space:pre-wrap;
     min-width: 100%;
     width:100%;
 }
