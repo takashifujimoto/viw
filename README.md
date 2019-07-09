@@ -11,7 +11,9 @@ Vi Web
 <p align="center">Welcome criticisms from Dev Community!</p>
 <br />
 <p align="center">This project tries to emulate Vim, just to build something.  ... inspired by the best Javascript advice I have ever read:</p>
-<p align="center"> >1. Build stuff!</p>
+>1. Build stuff!
+>2. Avoid JQuery - document.querySelector() will work just fine!
+   ...
                               
 [What-is-the-best-way-to-learn-JavaScript](https://www.quora.com/What-is-the-best-way-to-learn-JavaScript/answer/Alex-Jansen-2 "Quora")
 
