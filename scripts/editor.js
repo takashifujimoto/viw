@@ -204,17 +204,35 @@ function set_mode(event){
 }
 
 
-var text;
+var command;
 function change_mode_display(key){
     if(vim.mode != Mode.Command){
         updateUI( 'status_mode', '<span>' + mode_ToString(vim.mode) + '</span>' );
     } else {
-        text = text == undefined ? ':' : text + key;
-        updateUI( 'status_mode', '<span>' + text + '</span>');
+
+        if( key == 'Enter') run_command(command);
+        else{
+            command = command == undefined ? ':' : command + key;
+            updateUI( 'status_mode', '<span>' + command + '</span>');
+        }
+
     }
 }
 
 
+function run_command(command){
+    log(command);
+    switch(command){
+    case ':help':
+        load_help();
+        break;
+    }
+}
+
+
+function load_help(){
+    log('loading help ...');
+}
 
 
 var KeyCode = {
