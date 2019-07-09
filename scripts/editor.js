@@ -169,7 +169,8 @@ function normal_op(ch){
     case 'j':
         if(vim.cursor.y < vim.texts.length){
             move_cursor_y(vim.cursor.y, vim.cursor.y+1);
-            vim.cursor.y++;
+            if (vim.cursor.y < vim.texts.length - 1)
+                vim.cursor.y++;
         } 
         break;
 
@@ -235,28 +236,27 @@ function normal_op(ch){
 
 
 function move_cursor_x(x, y){
-    log('x', x, ' y ', y); 
     var elm ='line_' + y; 
     var current_ui_line = document.getElementById(elm);
-    //current_ui_line.innerHTML = make_ui_line(vim.texts[y], y);
     current_ui_line.innerHTML = make_ui_line_with_cursor(vim.texts[y], x);
 }
 
 
 function move_cursor_y(y, new_y){
-   
-    var elm ='line_' + y; 
-    var current_ui_line = document.getElementById(elm);
-    current_ui_line.innerHTML = make_ui_line(vim.texts[y], y);
+ 
+    if (new_y < vim.texts.length){
+        var elm ='line_' + y; 
+        var current_ui_line = document.getElementById(elm);
+        current_ui_line.innerHTML = make_ui_line(vim.texts[y], y);
 
-    var c_elm = 'line_' + new_y;
-    var next_ui_line_with_cursor = document.getElementById(c_elm);
-    next_ui_line_with_cursor.innerHTML = make_ui_line_with_cursor(vim.texts[new_y], new_y);
-
+        var c_elm = 'line_' + new_y;
+        var next_ui_line_with_cursor = document.getElementById(c_elm);
+        next_ui_line_with_cursor.innerHTML = make_ui_line_with_cursor(vim.texts[new_y], new_y);
+    }
 }
 
 function make_buffer(texts){
-    for(var i = texts.length; i != -1  ; i--){
+    for(var i = texts.length-1; i != -1  ; i--){
         if ( i == vim.cursor.y) {
             if(vim.mode == Mode.Normal){
                 editor.innerHTML
@@ -286,7 +286,7 @@ function make_ui_line_with_cursor(ui_text, i){
     log('x', vim.cursor.x);
     log('max',ui_text.length );
 
-    var x = vim.cursor.x < ui_text.length-1 ? vim.cursor.x : ui_text.length-1;
+    var x = vim.cursor.x < ui_text.length ? vim.cursor.x : ui_text.length-1;
 
     if(ui_text){
         return  ('<div class="line" id="line_' + i + '" >'+
