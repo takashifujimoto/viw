@@ -161,42 +161,30 @@ function normal_op(ch){
     case 'k' :
         if(vim.cursor.y > 0){
             var y = vim.cursor.y;
-            move_cursor(y, y-1);
+            move_cursor_y(y, y-1);
             vim.cursor.y--;
         } 
         break;
 
     case 'j':
         if(vim.cursor.y < vim.texts.length){
-            move_cursor(vim.cursor.y, vim.cursor.y+1);
+            move_cursor_y(vim.cursor.y, vim.cursor.y+1);
             vim.cursor.y++;
         } 
         break;
 
     case 'l' :
-        if(vim.cursor.x < 100-1){
-            if(vim.texts[vim.cursor.x] == '&'){
-                log('t');
-                move_cursor_x(vim.cursor.x, vim.cursor.y);
-                vim.curosr.x += 6;
-            } else {
-                log('f');
-                move_cursor_x(vim.cursor.x, vim.cursor.y);
-                vim.cursor.x++;
-            }
+        if(vim.cursor.x < vim.texts[vim.cursor.y].length-1){
+            vim.cursor.x++;
+            move_cursor_x(vim.cursor.x, vim.cursor.y);
         }
-
-        //update this.
-        //editor.innerHTML = '';
-        //make_buffer(vim.texts);
         break;
   
     case 'h':
         if(vim.cursor.x>0){
             vim.cursor.x--;
+            move_cursor_x(vim.cursor.x, vim.cursor.y);
         }
-        editor.innerHTML = '';
-        make_buffer(vim.texts);
         break;
 
     case 'w':
@@ -250,13 +238,12 @@ function move_cursor_x(x, y){
     log('x', x, ' y ', y); 
     var elm ='line_' + y; 
     var current_ui_line = document.getElementById(elm);
-    current_ui_line.innerHTML = make_ui_line(vim.texts[y], y);
-
-    //current_ui_line_with_cursor.innerHTML = make_ui_line_with_cursor(vim.texts[y], y);
+    //current_ui_line.innerHTML = make_ui_line(vim.texts[y], y);
+    current_ui_line.innerHTML = make_ui_line_with_cursor(vim.texts[y], x);
 }
 
 
-function move_cursor(y, new_y){
+function move_cursor_y(y, new_y){
    
     var elm ='line_' + y; 
     var current_ui_line = document.getElementById(elm);
@@ -295,21 +282,21 @@ function make_ui_line(ui_text, i){
 
 function make_ui_line_with_cursor(ui_text, i){
    
-    var len = ui_text.length;
-    var x = vim.cursor.x;
-    if (x > len) x = len; 
 
+    log('x', vim.cursor.x);
+    log('max',ui_text.length );
 
-    var regex = /&<\/span>nbsp;/;
+    var x = vim.cursor.x < ui_text.length-1 ? vim.cursor.x : ui_text.length-1;
+
     if(ui_text){
         return  ('<div class="line" id="line_' + i + '" >'+
-       '<div class="number" id="nu_'+i+'" >' + i +	'</div>'+
-        '<div class="text" id="text_'+i+'" >' +
+       '<div class="number" id="nu_'  + i + '" >' + i + '</div>'+
+        '<div class="text" id="text_' + i + '" >' +
          ui_text.substring(0, x) +
         '<span id="cursor">' + ui_text.substring(x, x+1) +
         '</span>' + ui_text.substring(x+1, ui_text.length) +
-        '</div>'+
-        '</div>').replace(regex, '&nbsp;</span>');
+        '</div>' +
+        '</div>');
     }
 }
 
