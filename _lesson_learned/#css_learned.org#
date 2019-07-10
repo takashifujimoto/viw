@@ -1,0 +1,48 @@
+* css cheatsheet
+
+** Show White space in div
+
+example viw/style/style.css
+
+div.line{
+    white-space:pre-wrap;
+}
+
+http://jsfiddle.net/VwGSf/
+
+
+
+**   Pisitioning
+
+***  Fixed Positioning
+
+keep <div> at the bottom, even page scroll up and down.
+#status_mode{
+ position: fixed;
+}
+
+
+*** Relative positioning.
+
+*** Overflow
+CSS の overflow プロパティは、要素の内容が多すぎてブロック整形コンテキストに収まらない場合にどうするかを設定します。これは overflow-x および overflow-y の一括指定です。
+
+https://developer.mozilla.org/ja/docs/Web/CSS/overflow
+
+make texts on vim editor hide bottom of the screen.
+I don't want scrool bar
+
+body{
+  overflow: hidden;
+}
+
+
+*** float:left
+
+.number{
+  float: left;
+}
+
+
+
+*** 
