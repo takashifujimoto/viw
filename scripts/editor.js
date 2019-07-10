@@ -20,12 +20,14 @@ var vim = {};
 
 (function init(){
     vim.mode = Mode.Normal;
+    vim.command = null;
     vim.texts = load_opening_text();
     vim.cursor = {
         ui: document.getElementById('cursor'),
         x: 0,
         y: 0,
     };
+    
 
     make_buffer(vim.texts);
     change_mode_display();
@@ -204,30 +206,44 @@ function set_mode(event){
 }
 
 
-var command;
+
 function change_mode_display(key){
     if(vim.mode != Mode.Command){
+
         updateUI( 'status_mode', '<span>' + mode_ToString(vim.mode) + '</span>' );
+
     } else {
 
-        if( key == 'Enter') run_command(command);
-        else{
-            command = command == undefined ? ':' : command + key;
-            updateUI( 'status_mode', '<span>' + command + '</span>');
+        if( key == 'Enter'){ 
+            vim.command = null;
+            run_command(vim.command);
+        } else{
+            vim.command = vim.command == null ? ':' : vim.command + key;
+            updateUI( 'status_mode', '<span>' + vim.command + '</span>');
         }
-
     }
 }
 
 
-function run_command(command){
-    log(command);
-    switch(command){
+function run_command(cmd){
+    switch(cmd){
     case ':help':
         load_help();
         break;
     }
+    reset_mode_display();
 }
+
+function reset_mode_display(){
+    vim.mode = Mode.Normal;
+    updateUI( 'status_mode', '<span>' + mode_ToString(vim.mode) + '</span>' );
+}
+
+function updateUI( id , content){
+    var element = document.getElementById(id);
+    element.innerHTML = content;
+}
+
 
 
 function load_help(){
@@ -267,14 +283,6 @@ function mode_ToString(mode){
     }
     return str;
 }
-
-
-function updateUI( id , content){
-    var element = document.getElementById(id);
-    element.innerHTML = content;
-}
-
-
 
 
 
