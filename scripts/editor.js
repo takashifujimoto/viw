@@ -53,11 +53,8 @@ function body_onKeyDown(event){
 
 function prevent_backward_navigation_by_backspacke_key(event){
     log(event.target);
-    if(event.keyCode == 8){
-    //if(event.keyCode == 8 &&
-       //(event.target || event.srcElement).tagName != 'Body') {
+    if(event.keyCode == 8)
         event.returnValue = false;
-    }
     return false;
 }
 
