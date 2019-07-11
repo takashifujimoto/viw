@@ -41,12 +41,24 @@ var vim = {};
 var is_shift_pressed = false;
 function body_onKeyDown(event){
 
+    prevent_backward_navigation_by_backspacke_key(event);
     set_mode(event); 
 
     if( event.key =='Shift' )
         is_shift_pressed = true;
 
     branch_out_event(event);
+
+}
+
+function prevent_backward_navigation_by_backspacke_key(event){
+    log(event.target);
+    if(event.keyCode == 8){
+    //if(event.keyCode == 8 &&
+       //(event.target || event.srcElement).tagName != 'Body') {
+        event.returnValue = false;
+    }
+    return false;
 }
 
 function body_onKeyUp(event){
@@ -213,13 +225,18 @@ function change_mode_display(key){
         updateUI( 'status_mode', '<span>' + mode_ToString(vim.mode) + '</span>' );
 
     } else {
-
+        //if( key != 'Backspace'){ 
+        //    run_command(vim.command);
+        //    vim.command = null;
+        //}else if( key == 'Enter'){ 
         if( key == 'Enter'){ 
-            vim.command = null;
             run_command(vim.command);
+            vim.command = null;
         } else{
-            vim.command = vim.command == null ? ':' : vim.command + key;
-            updateUI( 'status_mode', '<span>' + vim.command + '</span>');
+            if( key != 'Shift'){
+                vim.command = vim.command == null ? ':' : vim.command + key;
+                updateUI( 'status_mode', '<span>' + vim.command + '</span>');
+            }
         }
     }
 }
@@ -229,6 +246,21 @@ function run_command(cmd){
     switch(cmd){
     case ':help':
         load_help();
+        break;
+    case ':tutor':
+        load_vim_tutor();
+        break;
+    case ':q':
+        quit();
+        break;
+    case ':w':
+        write_file();
+        break;
+    case ':set nu':
+        show_line_numbers();
+        break;
+    case ':set rnu':
+        shor_relative_numbers();
         break;
     }
     reset_mode_display();
