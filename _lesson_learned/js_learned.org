@@ -1,0 +1,33 @@
+* Javascript Lesson Learned
+
+
+** Adding event handlers
+
+    document.body.addEventListener('keydown', body_onKeyDown);  
+
+
+** CSS Selector
+
+selecting the first <a class="selected">#</a>  in item id="nav"
+
+
+    document.getElementById('id').querySelector('a.selected');
+
+
+** XPath
+    XPath is faster than CSS Selector.
+    But its lerning curve is high.
+ 
+** Event Listner
+
+If you are done using, eventhandler, get rid of it. (though not many developer do this).
+
+*** Backspace key
+PROBLEM:  when I hit backspace key, the browser navigates back.
+SOLUTION: if the keyCode == 8, then set event.returnValue = false;
+SOURCE: http://www.technicaladvices.com/2012/07/16/preventing-backspace-from-navigating-back-in-all-the-browsers/
+
+
+
+
+
