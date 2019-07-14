@@ -18,6 +18,9 @@ function load_opening_text(){
                    type   :q&lt;Enter&gt;                  to quit
                    type   :help&lt;Enter&gt;               for help`;
 }
+
+
+
 function load_opening_text2(){
 
     return [

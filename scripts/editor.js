@@ -22,14 +22,18 @@ var vim = {};
 (function init(){
     vim.mode = Mode.Normal;
     vim.command = null;
-    vim.texts = load_opening_text();
+    vim.texts = load_opening_text().split(/\n/);
+
     vim.cursor = {
         ui: document.getElementById('cursor'),
         x: 0,
         y: 0,
     };
+   
     
-    make_buffer(vim.texts.split('\n'));
+    //var texts =vim.texts.split('\n');
+
+    make_buffer(vim.texts);
     
     change_mode_display();
     
@@ -335,7 +339,7 @@ function move_cursor_y(y, new_y){
     if (new_y < vim.texts.length){
         var elm ='line_' + y; 
         var current_ui_line = document.getElementById(elm);
-        current_ui_line.innerHTML = make_ui_line(vim.texts[y], y);
+        current_ui_line.innerHTML = make_ui_line_without_cursor(vim.texts[y], y);
 
         var c_elm = 'line_' + new_y;
         var next_ui_line_with_cursor = document.getElementById(c_elm);
@@ -344,22 +348,26 @@ function move_cursor_y(y, new_y){
 }
 
 function make_buffer(texts){
+    if(vim.mode != Mode.Normal)
+        return;
+
+    log('ui_text', texts, texts.length);
     for(var i = 0; i < texts.length; i++){
         if ( i == vim.cursor.y) {
-            if(vim.mode == Mode.Normal){
-                editor.innerHTML
-                +=  make_ui_line_with_cursor(texts[i], i);
-            }
-        } else if(vim.mode  == Mode.Normal){
             editor.innerHTML
-            +=  make_ui_line(vim.texts[i], i);
+            +=  make_ui_line_with_cursor(texts[i], i);
+        } else {
+            editor.innerHTML
+            +=  make_ui_line_without_cursor(vim.texts[i], i);
+            //editor.innerHTML.push(make_ui_line_without_cursor(vim.texts[i], i));
         }
     } 
     add_unused_line();
 }
 
 
-function make_ui_line(ui_text, i){
+function make_ui_line_without_cursor(ui_text, i){
+    log('ui_text', ui_text);
     return     '<div class="line" id="line_'+i+'" >'+
         '<div class="number" id="nu_'+i+'" >' + i +	'</div>'+
         '<div class="text" id="text_'+i+'">' + vim.texts[i] +
