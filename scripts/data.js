@@ -1,4 +1,24 @@
 function load_opening_text(){
+    return ` 
+        
+         
+          
+         
+         
+                                    VIW - Vi Web
+        
+                                    version 0.01
+                                  Takashi Fujimoto
+        
+                    Web Viw is open source and freely contributable
+        
+                           Constructive criticism welcome!
+                   type   :help contribute&lt;Enter&gt;    for information
+        
+                   type   :q&lt;Enter&gt;                  to quit
+                   type   :help&lt;Enter&gt;               for help`;
+}
+function load_opening_text2(){
 
     return [
         ' ', 

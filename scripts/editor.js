@@ -16,6 +16,7 @@ var Mode = {
     Replace: 4,
 };
 
+
 var vim = {};
 
 (function init(){
@@ -28,8 +29,8 @@ var vim = {};
         y: 0,
     };
     
-
-    make_buffer(vim.texts);
+    make_buffer(vim.texts.split('\n'));
+    
     change_mode_display();
     
     document.body.addEventListener('keydown', body_onKeyDown);   // 1
@@ -52,7 +53,6 @@ function body_onKeyDown(event){
 }
 
 function prevent_backward_navigation_by_backspacke_key(event){
-    log(event.target);
     if(event.keyCode == 8)
         event.returnValue = false;
     return false;
@@ -344,15 +344,15 @@ function move_cursor_y(y, new_y){
 }
 
 function make_buffer(texts){
-    for(var i = texts.length-1; i != -1  ; i--){
+    for(var i = 0; i < texts.length; i++){
         if ( i == vim.cursor.y) {
             if(vim.mode == Mode.Normal){
                 editor.innerHTML
-                =  make_ui_line_with_cursor(texts[i], i) + editor.innerHTML;
+                +=  make_ui_line_with_cursor(texts[i], i);
             }
         } else if(vim.mode  == Mode.Normal){
             editor.innerHTML
-            =  make_ui_line(vim.texts[i], i) + editor.innerHTML;
+            +=  make_ui_line(vim.texts[i], i);
         }
     } 
     add_unused_line();
