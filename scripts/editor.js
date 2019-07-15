@@ -25,9 +25,26 @@ var vim = {};
     vim.texts = load_opening_text().split(/\n/);
 
     vim.cursor = {
-        ui: document.getElementById('cursor'),
+        //ui: document.getElementById('cursor'),
         x: 0,
         y: 0,
+        is_shift_pressed : false,
+        on : false, 
+        blink : function(){
+            var cursor = document.getElementById('cursor');
+            if(cursor == null) cursor = document.getElementById('cursor_insert');
+       //     if (vim.mode == Mode.Insert) cursor = document.getElementById('cursor_insert');
+
+            if(vim.cursor.on){
+                cursor.style.backgroundColor = 'black';
+                //cursor.style.color = 'black';
+                vim.cursor.on = false;
+            }else{
+                cursor.style.backgroundColor = 'white';
+                //cursor.style.color = 'white';
+                vim.cursor.on = true;
+            }
+         },
     };
    
     
@@ -39,18 +56,18 @@ var vim = {};
     
     document.body.addEventListener('keydown', body_onKeyDown);   // 1
     document.body.addEventListener('keyup',   body_onKeyUp);
+    window.setInterval(vim.cursor.blink, 440);
 })( );
 
 
 
-var is_shift_pressed = false;
 function body_onKeyDown(event){
 
     prevent_backward_navigation_by_backspacke_key(event);
     set_mode(event); 
 
     if( event.key =='Shift' )
-        is_shift_pressed = true;
+        vim.is_shift_pressed = true;
 
     branch_out_event(event);
 
@@ -63,8 +80,8 @@ function prevent_backward_navigation_by_backspacke_key(event){
 }
 
 function body_onKeyUp(event){
-    if( event.key =='Shift' && is_shift_pressed )
-        is_shift_pressed = false;
+    if( event.key =='Shift' && vim.is_shift_pressed )
+        vim.is_shift_pressed = false;
 }
 
 function branch_out_event(event){
@@ -185,7 +202,7 @@ function insert_charCode(char){
     var y = vim.cursor.y;
 
     var  this_line = vim.texts[y];
-    this_line = this_line.substring(0, x+1) + char + this_line.substring(x+1 , this_line.length);
+    this_line = this_line.substring(0, x) + char + this_line.substring(x+1 , this_line.length);
 
     vim.texts[y] = this_line;
     var line = 'text_' + y;
@@ -205,11 +222,16 @@ function set_mode(event){
         vim.mode = Mode.Command;
     }
 
+
+
+
     if(vim.mode != Mode.Command){
         if (event.code == 'KeyI' ||event.code == 'KeyA') {
             if(vim.mode !== Mode.Insert){
                 vim.newly_insert_mode = true;
                 vim.mode = Mode.Insert;
+              //function update_ui_line_id_to_cursor_insert(ui_text){
+                update_ui_line_id_to_cursor_insert();
             }
         }else if(event.code == 'keyV'){
             vim.mode = Mode.Visual;
@@ -366,7 +388,6 @@ function make_buffer(texts){
 
 
 function make_ui_line_without_cursor(ui_text, i){
-    log('ui_text', ui_text);
     return     '<div class="line" id="line_'+i+'" >'+
         '<div class="number" id="nu_'+i+'" >' + i +	'</div>'+
         '<pre class="text" id="text_'+i+'">' + vim.texts[i] +
@@ -405,9 +426,17 @@ function make_ui_text_with_cursor_insert_mode(ui_text){
 }
 
 
+//function update_ui_line_id_to_cursor_insert(ui_text){
+function update_ui_line_id_to_cursor_insert(){
+    //var line = ui_text.getElementById('curosr_insert'); 
+    var line = document.getElementById('cursor'); 
+    if(line === null) line = document.getElementById('cursor_insert');
+    line.innerHTML.replace('id="cursor"' , 'id="cursor_insert"');
+}
 
 function add_unused_line(){
     while( window.innerHeight > editor.clientHeight + 249){
         editor.innerHTML += '<div class="number" ></div><div class="text">~</div>';
     }
 }
+
