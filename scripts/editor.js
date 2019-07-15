@@ -351,7 +351,6 @@ function make_buffer(texts){
     if(vim.mode != Mode.Normal)
         return;
 
-    log('ui_text', texts, texts.length);
     for(var i = 0; i < texts.length; i++){
         if ( i == vim.cursor.y) {
             editor.innerHTML
@@ -370,8 +369,8 @@ function make_ui_line_without_cursor(ui_text, i){
     log('ui_text', ui_text);
     return     '<div class="line" id="line_'+i+'" >'+
         '<div class="number" id="nu_'+i+'" >' + i +	'</div>'+
-        '<div class="text" id="text_'+i+'">' + vim.texts[i] +
-        '</div>'+
+        '<pre class="text" id="text_'+i+'">' + vim.texts[i] +
+        '</pre>'+
         '</div>';
 }
 
@@ -383,11 +382,11 @@ function make_ui_line_with_cursor(ui_text, i){
     if(ui_text){
         return  ('<div class="line" id="line_' + i + '" >'+
        '<div class="number" id="nu_'  + i + '" >' + i + '</div>'+
-        '<div class="text" id="text_' + i + '" >' +
+        '<pre class="text" id="text_' + i + '" >' +
          ui_text.substring(0, x) +
         '<span id="cursor">' + ui_text.substring(x, x+1) +
         '</span>' + ui_text.substring(x+1, ui_text.length) +
-        '</div>' +
+        '</pre>' +
         '</div>');
     }
 }
