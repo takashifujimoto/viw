@@ -69,7 +69,7 @@ function body_onKeyDown(event){
     if( event.key =='Shift' )
         vim.is_shift_pressed = true;
 
-    branch_out_event(event);
+    do_mode_operation(event);
 
 }
 
@@ -84,7 +84,7 @@ function body_onKeyUp(event){
         vim.is_shift_pressed = false;
 }
 
-function branch_out_event(event){
+function do_mode_operation(event){
 
     var key = get_key_downed(event);
 
@@ -108,6 +108,9 @@ function get_key_downed(event){
 
 
 function normal_op(ch){
+    if(vim.mode != Mode.Normal)
+        return;
+
     switch(ch){
     case 'k' :
         if(vim.cursor.y > 0){
@@ -126,16 +129,16 @@ function normal_op(ch){
         break;
 
     case 'l' :
-        if(vim.cursor.x < vim.texts[vim.cursor.y].length-1){
+        if(vim.cursor.x < vim.texts[vim.cursor.y].length-1){       // is cursor before the end of line
             vim.cursor.x++;
-            move_cursor_x(vim.cursor.x, vim.cursor.y);
+            move_cursor_x(vim.cursor.y, vim.cursor.x);
         }
         break;
   
     case 'h':
         if(vim.cursor.x>0){
             vim.cursor.x--;
-            move_cursor_x(vim.cursor.x, vim.cursor.y);
+            move_cursor_x(vim.cursor.y, vim.cursor.x);
         }
         break;
 
@@ -200,15 +203,17 @@ function command_mode_op(key){
 function insert_charCode(char){
     var x = vim.cursor.x;
     var y = vim.cursor.y;
+    log(y);
 
     var  this_line = vim.texts[y];
-    this_line = this_line.substring(0, x) + char + this_line.substring(x+1 , this_line.length);
-
+    this_line = this_line.substring(0, x) + char + this_line.substring(x , this_line.length);
+    log(this_line);
     vim.texts[y] = this_line;
+    log(y);
     var line = 'text_' + y;
+
     var elm = document.getElementById(line);
     elm.innerHTML = make_ui_text_with_cursor_insert_mode(this_line); 
-
 }
 
 
@@ -218,11 +223,11 @@ function set_mode(event){
     
     if(event.code == 'Escape'){               
         vim.mode = Mode.Normal;
+        return;
     } else if(event.key == ':'){
         vim.mode = Mode.Command;
+        return;
     }
-
-
 
 
     if(vim.mode != Mode.Command){
@@ -306,16 +311,6 @@ function load_help(){
 }
 
 
-var KeyCode = {
-    ESC: 27,
-    i:73,
-    v:118,
-    V:86,
-    COLON: 58,
-};
-
-
-
 
 function mode_ToString(mode){
     var str = 'Normal';
@@ -349,10 +344,11 @@ function mode_ToString(mode){
 
 
 
-function move_cursor_x(x, y){
+function move_cursor_x(y, x){
     var elm ='line_' + y; 
+    log(elm);
     var current_ui_line = document.getElementById(elm);
-    current_ui_line.innerHTML = make_ui_line_with_cursor(vim.texts[y], x);
+    current_ui_line.innerHTML = make_ui_line_with_cursor(vim.texts[y], y);
 }
 
 
@@ -396,14 +392,14 @@ function make_ui_line_without_cursor(ui_text, i){
 }
 
 
-function make_ui_line_with_cursor(ui_text, i){
+function make_ui_line_with_cursor(ui_text, y){
    
     var x = vim.cursor.x < ui_text.length ? vim.cursor.x : ui_text.length-1;
 
     if(ui_text){
-        return  ('<div class="line" id="line_' + i + '" >'+
-       '<div class="number" id="nu_'  + i + '" >' + i + '</div>'+
-        '<pre class="text" id="text_' + i + '" >' +
+        return  ('<div class="line" id="line_' + y + '" >'+
+       '<div class="number" id="nu_'  + y + '" >' + y + '</div>'+
+        '<pre class="text" id="text_' + y + '" >' +
          ui_text.substring(0, x) +
         '<span id="cursor">' + ui_text.substring(x, x+1) +
         '</span>' + ui_text.substring(x+1, ui_text.length) +
