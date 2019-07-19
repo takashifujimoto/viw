@@ -18,7 +18,8 @@ var Mode = {
 
 
 var vim = {};
-var keyboard = {};
+var keyboard = {}; 
+
 (function init(){
     vim.mode = Mode.Normal;
     vim.command = null;
@@ -48,9 +49,18 @@ var keyboard = {};
 
     keyboard = {
         is_shift_pressed : false,
+        is_alpha_numeric : (char) => {
+            if(char == 'Control' || char == 'Shift')
+                return false;
+            else
+                return true;
+
+        }
     };
-   
-    
+ 
+   var regular_expressions = {
+       alpha_numeric : /"^[a-zA-Z0-9]*$"/ 
+   };
     //var texts =vim.texts.split('\n');
 
     make_buffer(vim.texts);
@@ -65,13 +75,6 @@ var keyboard = {};
 
 
 function body_onKeyDown(event){
-
-    log(keyboard);
-
-    
-    keyboard.key_logger.push(event.key);
-    if(keyboard.key_logger.length > 500)
-        keyboard.key_logger.pop();
  
     prevent_backward_navigation_by_backspacke_key(event);
     set_mode(event); 
@@ -83,12 +86,9 @@ function body_onKeyDown(event){
         keyboard.is_control_down = true;
 
     do_mode_operation(event);
-
 }
 
 function body_onKeyUp(event){
-    log(keyboard);
-
     
     if( event.key =='Shift' && keyboard.is_shift_down )
         keyboard.is_shift_down = false;
@@ -106,6 +106,7 @@ function prevent_backward_navigation_by_backspacke_key(event){
 
 function do_mode_operation(event){
 
+    log(event);
     var key = get_key_downed(event);
 
     if(vim.mode == Mode.Normal)
@@ -201,11 +202,21 @@ function normal_op(ch){
     }
 }
 
+
 function insert_op(char){
     if(!vim.newly_insert_mode)
-        insert_charCode(char);
+        if(keyboard.is_alpha_numeric(char)){
+            log(':)');
+            insert_charCode(char);
+        } else {
+            log(':{');    
+        }
+
+
+
     vim.newly_insert_mode = false;
 }
+
 
 function visual_mode_op(ch){}
 
@@ -218,18 +229,13 @@ function command_mode_op(key){
 
 
 
-
-
 function insert_charCode(char){
     var x = vim.cursor.x;
     var y = vim.cursor.y;
-    log(y);
 
     var  this_line = vim.texts[y];
     this_line = this_line.substring(0, x) + char + this_line.substring(x , this_line.length);
-    log(this_line);
     vim.texts[y] = this_line;
-    log(y);
     var line = 'text_' + y;
 
     var elm = document.getElementById(line);
@@ -240,17 +246,15 @@ function insert_charCode(char){
 
 
 function set_mode(event){
-    
+  if(vim.mode == Mode.Insert){ 
     if(event.code == 'Escape'){               
         vim.mode = Mode.Normal;
-        return;
+    } else if ( keyboard.is_control_down && event.code == 'BracketLeft'){
+        vim.mode = Mode.Normal;
     } else if(event.key == ':'){
         vim.mode = Mode.Command;
-        return;
     }
-
-
-    if(vim.mode != Mode.Command){
+  }else if(vim.mode != Mode.Command){
         if (event.code == 'KeyI' ||event.code == 'KeyA') {
             if(vim.mode !== Mode.Insert){
                 vim.newly_insert_mode = true;
@@ -366,7 +370,6 @@ function mode_ToString(mode){
 
 function move_cursor_x(y, x){
     var elm ='line_' + y; 
-    log(elm);
     var current_ui_line = document.getElementById(elm);
     current_ui_line.innerHTML = make_ui_line_with_cursor(vim.texts[y], y);
 }
