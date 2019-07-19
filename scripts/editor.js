@@ -18,7 +18,7 @@ var Mode = {
 
 
 var vim = {};
-
+var keyboard = {};
 (function init(){
     vim.mode = Mode.Normal;
     vim.command = null;
@@ -28,7 +28,6 @@ var vim = {};
         //ui: document.getElementById('cursor'),
         x: 0,
         y: 0,
-        is_shift_pressed : false,
         on : false, 
         blink : function(){
             var cursor = document.getElementById('cursor');
@@ -45,6 +44,10 @@ var vim = {};
                 vim.cursor.on = true;
             }
          },
+    };
+
+    keyboard = {
+        is_shift_pressed : false,
     };
    
     
@@ -63,14 +66,35 @@ var vim = {};
 
 function body_onKeyDown(event){
 
+    log(keyboard);
+
+    
+    keyboard.key_logger.push(event.key);
+    if(keyboard.key_logger.length > 500)
+        keyboard.key_logger.pop();
+ 
     prevent_backward_navigation_by_backspacke_key(event);
     set_mode(event); 
 
     if( event.key =='Shift' )
-        vim.is_shift_pressed = true;
+        keyboard.is_shift_down = true;
+
+    if( event.key =='Control')
+        keyboard.is_control_down = true;
 
     do_mode_operation(event);
 
+}
+
+function body_onKeyUp(event){
+    log(keyboard);
+
+    
+    if( event.key =='Shift' && keyboard.is_shift_down )
+        keyboard.is_shift_down = false;
+
+    if( event.key =='Control' && vim.is_control_down )
+        keyboard.is_control_down = false;
 }
 
 function prevent_backward_navigation_by_backspacke_key(event){
@@ -79,10 +103,6 @@ function prevent_backward_navigation_by_backspacke_key(event){
     return false;
 }
 
-function body_onKeyUp(event){
-    if( event.key =='Shift' && vim.is_shift_pressed )
-        vim.is_shift_pressed = false;
-}
 
 function do_mode_operation(event){
 
