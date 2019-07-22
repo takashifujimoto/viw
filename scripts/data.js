@@ -1,5 +1,34 @@
 function load_opening_text(){
     return ` 
+    VIW - Vi Web
+    version 0.01
+    
+   Parciais fy jac codi baw 
+hud llawn dŵr ger tŷ Mabon.
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+Ξεσκεπάζω την ψυχοφθόρα βδελυγμία.
+αβγδεζηθικλμνξοπρστυφχψως
+ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ
+У рудога вераб’я ў сховішчы 
+пад фатэлем ляжаць нейкія гаючыя зёлкі.
+абвгґдђѓеёєжнњопрс
+тћќуўuфхцчџшщъыьэюя
+АБВГҐДЂЃЕЁЄЖНЊОПРС
+ТЋЌУЎUФХЦЧЏШЩЪЫЬЭЮЯ
+& 1234567890 .,:;… ¡!¿?
+'" ‘’ “” ‚„ ′″‹› «» -–—
+(/)[|]{\} * †‡§¶|‖ @ №
+$£¥€₹₺₽¢ƒ %‰ ¼½¾⅓⅔⅛⅜⅝
++−×÷∙=<>≤≥±^≠~≈¬ #π∞µ∂∫√
+•◦▪▫▴▸▾◂▵▹▿◃
+●○■□▲▶▼◀△▷▽◁❒◆►◄◙◉◘
+←↖↑↗→↘↓↙ ⇐⇑⇒⇓ ↔↕↨ ♀♂ ☼⌂ ☑ ✓ 
+♪ ♫ ♥ ​♣​ ♦​ ♠​ ☺​ ☻ ​❤​ ☕​ 💩 ​🤖​ 🔒
+      `;
+}
+function load_opening_text_bkp(){
+    return ` 
         
          
           
@@ -16,7 +45,31 @@ function load_opening_text(){
                    type   :help contribute&lt;Enter&gt;    for information
         
                    type   :q&lt;Enter&gt;                  to quit
-                   type   :help&lt;Enter&gt;               for help`;
+                   type   :help&lt;Enter&gt;               for help
+    
+   Parciais fy jac codi baw 
+hud llawn dŵr ger tŷ Mabon.
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+Ξεσκεπάζω την ψυχοφθόρα βδελυγμία.
+αβγδεζηθικλμνξοπρστυφχψως
+ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ
+У рудога вераб’я ў сховішчы 
+пад фатэлем ляжаць нейкія гаючыя зёлкі.
+абвгґдђѓеёєжнњопрс
+тћќуўuфхцчџшщъыьэюя
+АБВГҐДЂЃЕЁЄЖНЊОПРС
+ТЋЌУЎUФХЦЧЏШЩЪЫЬЭЮЯ
+& 1234567890 .,:;… ¡!¿?
+'" ‘’ “” ‚„ ′″‹› «» -–—
+(/)[|]{\} * †‡§¶|‖ @ №
+$£¥€₹₺₽¢ƒ %‰ ¼½¾⅓⅔⅛⅜⅝
++−×÷∙=<>≤≥±^≠~≈¬ #π∞µ∂∫√
+•◦▪▫▴▸▾◂▵▹▿◃
+●○■□▲▶▼◀△▷▽◁❒◆►◄◙◉◘
+←↖↑↗→↘↓↙ ⇐⇑⇒⇓ ↔↕↨ ♀♂ ☼⌂ ☑ ✓ 
+♪ ♫ ♥ ​♣​ ♦​ ♠​ ☺​ ☻ ​❤​ ☕​ 💩 ​🤖​ 🔒
+      `;
 }
 
 

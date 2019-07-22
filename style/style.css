@@ -1,15 +1,17 @@
-pre{
-    margin:0px;
-    padding:0;
-    font-family: 'Cousine', monospace;
+
+body{
+    /*font-family: monospace;*/
+    font-family: "Source Code Pro", sans-serif;
     font-size: 13px;
 }
 
-body{
-    font-family: monospace;
+
+pre{
+    margin:0px;
+    padding:0;
+   /* font-family: 'Cousine', monospace;code {*/
+    font-family: "Source Code Pro", sans-serif;
 }
-
-
 
 div.line{
     white-space:pre-wrap;
