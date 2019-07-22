@@ -443,15 +443,13 @@ function update_ui_line_id_to_cursor_insert(key){
     } else if (key == 'A'){
         vim.cursor.x = document.getElementById('text_' + vim.cursor.y).innerText.length-1 ;
     }
+
     var ui_text_element = document.getElementById('text_' + vim.cursor.y);
     log('line', line);
     log('ui_text_element', ui_text_element);
 
- var ui_text = ui_text_element.innerText; 
+    var ui_text = ui_text_element.innerText; 
 
-    log('len: ' + ui_text.length);
-    log('x: ' + vim.cursor.x);
-    //ui_text_element.removeChild(ui_text_element.childNodes[0]);
     document.getElementById('text_' + vim.cursor.y).innerHtml = make_ui_text_with_cursor_insert_mode(ui_text);
 
 }
